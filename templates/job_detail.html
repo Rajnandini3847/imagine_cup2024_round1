@@ -1,0 +1,18 @@
+<!-- job_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Detail</title>
+</head>
+<body>
+    <h1>{{ job.title }}</h1>
+    <p>Description: {{ job.description }}</p>
+    <p>Posted by: {{ job.posted_by.user.username }}</p>
+    <p>Budget: {{ job.budget }}</p>
+    <p>Created at: {{ job.created_at }}</p>
+
+    <a href="{% url 'apply_for_job' job.id %}">Apply for this job</a>
+</body>
+</html>

@@ -3,8 +3,11 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth  import authenticate,  login, logout
-
-# Create your views here.
+# views.py
+from django.shortcuts import render, redirect
+from .models import Job, Application
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def landing_page(request):
     return render(request, 'landing_page.html')
@@ -50,3 +53,41 @@ def Logout(request):
     logout(request)
     messages.success(request, "Successfully logged out")
     return redirect('/login')
+
+def restaurants(request):
+    return render(request, 'restaurants_map.html')
+
+def hospitals(request):
+    return render(request, 'hospitals_map.html')
+
+def schools_and_colleges(request):
+    return render(request, 'schools_and_colleges.html')
+
+
+
+@login_required
+def job_list(request):
+    jobs = Job.objects.filter(is_active=True)
+    return render(request, 'job_list.html', {'jobs': jobs})
+
+@login_required
+def job_detail(request, job_id):
+    job = Job.objects.get(id=job_id)
+    return render(request, 'job_detail.html', {'job': job})
+
+@login_required
+def apply_for_job(request, job_id):
+    if request.method == 'POST':
+        job = Job.objects.get(id=job_id)
+        application_text = request.POST.get('application_text')
+
+        Application.objects.create(
+            job=job,
+            applicant=request.user.userprofile,
+            message=application_text
+        )
+
+        messages.success(request, 'Application submitted successfully!')
+        return redirect('job_list')
+
+    return render(request, 'apply_for_job.html', {'job_id': job_id})

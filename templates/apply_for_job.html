@@ -1,0 +1,18 @@
+<!-- apply_for_job.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Job</title>
+</head>
+<body>
+    <h1>Apply for Job</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        <label for="application_text">Your Application:</label><br>
+        <textarea id="application_text" name="application_text" rows="4" cols="50" required></textarea><br>
+        <button type="submit">Submit Application</button>
+    </form>
+</body>
+</html>
